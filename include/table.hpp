@@ -30,10 +30,13 @@
 #include <string>
 #include <vector>
 
-namespace LE {
-    class Table {
+namespace LE
+{
+    class Table
+    {
     public:
-        Table(std::vector<std::vector<std::string>> const &content, std::vector<std::string> const &headers) {
+        Table(std::vector<std::vector<std::string>> const &content, std::vector<std::string> const &headers)
+        {
             content_ = content;
             headers_ = headers;
 
@@ -61,27 +64,32 @@ namespace LE {
             }
         }
 
-        Table &set_bold_headers(bool const bold_headers) {
+        Table &set_bold_headers(bool const bold_headers)
+        {
             bold_headers_ = bold_headers;
             return *this;
         }
 
-        Table &set_is_ascii(bool const is_ascii) {
+        Table &set_is_ascii(bool const is_ascii)
+        {
             is_ascii_ = is_ascii;
             return *this;
         }
 
-        Table &set_padding_left(unsigned padding_left) {
+        Table &set_padding_left(unsigned padding_left)
+        {
             padding_left_ = padding_left;
             return *this;
         }
 
-        Table &set_padding_right(unsigned padding_right) {
+        Table &set_padding_right(unsigned padding_right)
+        {
             padding_right_ = padding_right;
             return *this;
         }
 
-        std::string render() const {
+        std::string render() const
+        {
             std::string output;
 
             output += draw_top();
@@ -91,7 +99,8 @@ namespace LE {
 
                 if (i < content_.size() - 1) {
                     output += draw_middle_line();
-                } else {
+                }
+                else {
                     output += draw_line("bottom", "bottom-left", "bottom-mid", "bottom-right");
                 }
             }
@@ -109,15 +118,18 @@ namespace LE {
         unsigned padding_left_{1};
         unsigned padding_right_{1};
 
-        size_t count_cols() const {
+        size_t count_cols() const
+        {
             return headers_.size();
         }
 
-        size_t count_rows() const {
+        size_t count_rows() const
+        {
             return content_.size();
         }
 
-        std::string repeat(std::string const &symbol, size_t num) const {
+        std::string repeat(std::string const &symbol, size_t num) const
+        {
             if (num < 2) {
                 return symbol;
             }
@@ -130,7 +142,8 @@ namespace LE {
             return output;
         }
 
-        std::string extend(std::string value, size_t const width, bool const is_bold) const {
+        std::string extend(std::string value, size_t const width, bool const is_bold) const
+        {
             while (value.size() < width) {
                 value += " ";
             }
@@ -154,7 +167,8 @@ namespace LE {
         }
 
         // Drawing
-        std::string draw_line(std::string const &symbol, std::string const &left, std::string const &middle, std::string const &right) const {
+        std::string draw_line(std::string const &symbol, std::string const &left, std::string const &middle, std::string const &right) const
+        {
             std::string output;
 
             // Top line
@@ -164,7 +178,8 @@ namespace LE {
 
                 if (i < widths_.size() - 1) {
                     output += get_symbols().at(middle);
-                } else {
+                }
+                else {
                     output += get_symbols().at(right);
                 }
             }
@@ -173,11 +188,13 @@ namespace LE {
             return output;
         }
 
-        std::string draw_middle_line() const {
+        std::string draw_middle_line() const
+        {
             return draw_line("mid", "left-mid", "mid-mid", "right-mid");
         }
 
-        std::string draw_top() const {
+        std::string draw_top() const
+        {
             std::string output;
 
             // Top line
@@ -192,11 +209,13 @@ namespace LE {
             return output;
         }
 
-        std::string draw_cell(std::vector<std::string> const &row) const {
+        std::string draw_cell(std::vector<std::string> const &row) const
+        {
             return draw_cell(row, false);
         }
 
-        std::string draw_cell(std::vector<std::string> const &row, bool is_headers) const {
+        std::string draw_cell(std::vector<std::string> const &row, bool is_headers) const
+        {
             std::string output;
 
             output += get_symbols().at("left");
@@ -205,7 +224,8 @@ namespace LE {
 
                 if (i < widths_.size() - 1) {
                     output += get_symbols().at("middle");
-                } else {
+                }
+                else {
                     output += get_symbols().at("right");
                 }
             }
@@ -214,45 +234,47 @@ namespace LE {
             return output;
         }
 
-
-        std::map<std::string, std::string> get_symbols() const {
+        std::map<std::string, std::string> get_symbols() const
+        {
             if (is_ascii_) {
-                return {{"top",          "-"},
-                        {"top-mid",      "+"},
-                        {"top-left",     "+"},
-                        {"top-right",    "+"},
-                        {"bottom",       "-"},
-                        {"bottom-mid",   "+"},
-                        {"bottom-left",  "+"},
+                return {{"top", "-"},
+                        {"top-mid", "+"},
+                        {"top-left", "+"},
+                        {"top-right", "+"},
+                        {"bottom", "-"},
+                        {"bottom-mid", "+"},
+                        {"bottom-left", "+"},
                         {"bottom-right", "+"},
-                        {"left",         "|"},
-                        {"left-mid",     "+"},
-                        {"mid",          "-"},
-                        {"mid-mid",      "+"},
-                        {"right",        "|"},
-                        {"right-mid",    "+"},
-                        {"middle",       "|"}};
-            } else {
-                return {{"top",          "─"},
-                        {"top-mid",      "┬"},
-                        {"top-left",     "┌"},
-                        {"top-right",    "┐"},
-                        {"bottom",       "─"},
-                        {"bottom-mid",   "┴"},
-                        {"bottom-left",  "└"},
+                        {"left", "|"},
+                        {"left-mid", "+"},
+                        {"mid", "-"},
+                        {"mid-mid", "+"},
+                        {"right", "|"},
+                        {"right-mid", "+"},
+                        {"middle", "|"}};
+            }
+            else {
+                return {{"top", "─"},
+                        {"top-mid", "┬"},
+                        {"top-left", "┌"},
+                        {"top-right", "┐"},
+                        {"bottom", "─"},
+                        {"bottom-mid", "┴"},
+                        {"bottom-left", "└"},
                         {"bottom-right", "┘"},
-                        {"left",         "│"},
-                        {"left-mid",     "├"},
-                        {"mid",          "─"},
-                        {"mid-mid",      "┼"},
-                        {"right",        "│"},
-                        {"right-mid",    "┤"},
-                        {"middle",       "│"}};
+                        {"left", "│"},
+                        {"left-mid", "├"},
+                        {"mid", "─"},
+                        {"mid-mid", "┼"},
+                        {"right", "│"},
+                        {"right-mid", "┤"},
+                        {"middle", "│"}};
             }
         }
     };
 
-    inline std::ostream &operator<<(std::ostream &os, Table const &table) {
+    inline std::ostream &operator<<(std::ostream &os, Table const &table)
+    {
         return os << table.render();
     }
 }

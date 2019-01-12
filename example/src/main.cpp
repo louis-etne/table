@@ -5,7 +5,8 @@
 #include "../../include/table.hpp"
 
 
-int main() {
+int main()
+{
     std::vector<std::vector<std::string>> values{{"88", "0x7ffee784e96c", "0x7ffee784e960", "0x7ffee784e96c", "88"},
                                                  {"89", "0x7ffee784e96c", "0x7ffee784e960", "0x7ffee784e96c", "89"}};
 
