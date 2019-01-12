@@ -20,7 +20,7 @@ int main() {
     std::vector<std::string> headers{"Value", "Value address", "Pointer address", "Pointer contents", "Dereferenced pointer"};
 
     LE::Table table{values, headers};
-    std::cout << table.set_bold_headers(true);
+    std::cout << table.set_bold_headers(true).set_is_ascii(false);
 
     return 0;
 }
