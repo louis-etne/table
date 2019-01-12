@@ -110,7 +110,6 @@ namespace LE {
         unsigned padding_right_{1};
 
         size_t count_cols() const {
-
             return headers_.size();
         }
 
@@ -132,7 +131,7 @@ namespace LE {
         }
 
         std::string extend(std::string value, size_t const width, bool const is_bold) const {
-            while (value.size() < width - (padding_left_ + padding_right_)) {
+            while (value.size() < width) {
                 value += " ";
             }
 
@@ -202,7 +201,7 @@ namespace LE {
 
             output += get_symbols().at("left");
             for (size_t i{0}; i < widths_.size(); ++i) {
-                output += extend(row[i], widths_[i] + (padding_left_ + padding_right_), is_headers && bold_headers_);
+                output += extend(row[i], widths_[i], is_headers && bold_headers_);
 
                 if (i < widths_.size() - 1) {
                     output += get_symbols().at("middle");
