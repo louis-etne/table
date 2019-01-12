@@ -59,11 +59,6 @@ namespace LE {
                     widths_[col] = headers_[col].size();
                 }
             }
-
-            // Add spacing
-            for (size_t &width : widths_) {
-                width += 2;
-            }
         }
 
         Table &set_bold_headers(bool const bold_headers) {
@@ -73,6 +68,16 @@ namespace LE {
 
         Table &set_is_ascii(bool const is_ascii) {
             is_ascii_ = is_ascii;
+            return *this;
+        }
+
+        Table &set_padding_left(unsigned padding_left) {
+            padding_left_ = padding_left;
+            return *this;
+        }
+
+        Table &set_padding_right(unsigned padding_right) {
+            padding_right_ = padding_right;
             return *this;
         }
 
@@ -101,6 +106,8 @@ namespace LE {
 
         bool bold_headers_{false};
         bool is_ascii_{false};
+        unsigned padding_left_{1};
+        unsigned padding_right_{1};
 
         size_t count_cols() const {
 
@@ -125,13 +132,18 @@ namespace LE {
         }
 
         std::string extend(std::string value, size_t const width, bool const is_bold) const {
-            while (value.size() < width - 2) {
+            while (value.size() < width - (padding_left_ + padding_right_)) {
                 value += " ";
             }
 
-            // Add spacing
-            value.insert(0, " ");
-            value.append(" ");
+            // Add padding
+            for (unsigned i{0}; i < padding_left_; ++i) {
+                value.insert(0, " ");
+            }
+
+            for (unsigned i{0}; i < padding_right_; ++i) {
+                value.append(" ");
+            }
 
             // Add bold
             if (is_bold) {
@@ -149,7 +161,7 @@ namespace LE {
             // Top line
             output += get_symbols().at(left);
             for (size_t i{0}; i < widths_.size(); ++i) {
-                output += repeat(get_symbols().at(symbol), widths_[i]);
+                output += repeat(get_symbols().at(symbol), widths_[i] + (padding_left_ + padding_right_));
 
                 if (i < widths_.size() - 1) {
                     output += get_symbols().at(middle);
@@ -190,7 +202,7 @@ namespace LE {
 
             output += get_symbols().at("left");
             for (size_t i{0}; i < widths_.size(); ++i) {
-                output += extend(row[i], widths_[i], is_headers && bold_headers_);
+                output += extend(row[i], widths_[i] + (padding_left_ + padding_right_), is_headers && bold_headers_);
 
                 if (i < widths_.size() - 1) {
                     output += get_symbols().at("middle");

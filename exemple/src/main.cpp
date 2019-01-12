@@ -12,7 +12,13 @@ int main() {
     std::vector<std::string> headers{"Value", "Value address", "Pointer address", "Pointer contents", "Dereferenced pointer"};
 
     LE::Table table{values, headers};
-    std::cout << table.set_bold_headers(true);
+
+    // table.set_bold_headers(true); Use bold font for the headers.
+    // table.set_is_ascii(true);     Use only ASCII symbols.
+    // table.set_padding_left(x);    Add x [unsigned] spaces at the left of each value.
+    // table.set_padding_right(x);   Add x [unsigned] spaces at the right of each value.
+
+    std::cout << table.set_bold_headers(true).set_padding_right(2);
 
     return 0;
 }
