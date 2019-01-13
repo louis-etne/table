@@ -30,7 +30,7 @@
 #include <string>
 #include <vector>
 
-namespace LE
+namespace table
 {
     class Table
     {
