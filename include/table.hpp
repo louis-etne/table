@@ -25,8 +25,10 @@
 #ifndef TABLE_TABLE_HPP
 #define TABLE_TABLE_HPP
 
+#include <iostream>
 #include <map>
 #include <ostream>
+#include <regex>
 #include <string>
 #include <vector>
 
@@ -144,7 +146,7 @@ namespace table
 
         std::string extend(std::string value, size_t const width, bool const is_bold) const
         {
-            while (value.size() < width) {
+            while (clean_string(value).size() < width) {
                 value += " ";
             }
 
@@ -164,6 +166,13 @@ namespace table
             }
 
             return value;
+        }
+
+        std::string clean_string(std::string const &value) const
+        {
+            std::regex rgx{"\033\[[0-9]+m"};
+
+            return std::regex_replace(value, rgx, "");
         }
 
         // Drawing
